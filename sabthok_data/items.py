@@ -23,3 +23,4 @@ class GsmareanaItem(scrapy.Item):
     Features = scrapy.Field()
     Battery = scrapy.Field()
     Misc = scrapy.Field()
+    Tests = scrapy.Field()
