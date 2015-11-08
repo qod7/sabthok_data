@@ -11,15 +11,15 @@ class GsmarenaSpider(scrapy.Spider):
     # Starting urls
     start_urls = [
         "http://www.gsmarena.com/samsung-phones-9.php",
-        # "http://www.gsmarena.com/apple-phones-48.php",
-        # "http://www.gsmarena.com/microsoft-phones-64.php",
-        # "http://www.gsmarena.com/nokia-phones-1.php",
-        # "http://www.gsmarena.com/sony-phones-7.php",
-        # "http://www.gsmarena.com/lg-phones-20.php",
-        # "http://www.gsmarena.com/htc-phones-45.php",
-        # "http://www.gsmarena.com/motorola-phones-4.php",
-        # "http://www.gsmarena.com/huawei-phones-58.php",
-        # "http://www.gsmarena.com/lenovo-phones-73.php",
+        "http://www.gsmarena.com/apple-phones-48.php",
+        "http://www.gsmarena.com/microsoft-phones-64.php",
+        "http://www.gsmarena.com/nokia-phones-1.php",
+        "http://www.gsmarena.com/sony-phones-7.php",
+        "http://www.gsmarena.com/lg-phones-20.php",
+        "http://www.gsmarena.com/htc-phones-45.php",
+        "http://www.gsmarena.com/motorola-phones-4.php",
+        "http://www.gsmarena.com/huawei-phones-58.php",
+        "http://www.gsmarena.com/lenovo-phones-73.php",
     ]
 
     product_selector = "div.makers > ul > li > a::attr('href')"
@@ -34,11 +34,11 @@ class GsmarenaSpider(scrapy.Spider):
             yield scrapy.Request(url, callback=self.parse_product_page)
 
         # Link for next page
-        # next_page = response.css(GsmarenaSpider.next_page_url_selector)
-        #
-        # if(next_page):
-        #     url = response.urljoin(next_page[0].extract())
-        #     yield scrapy.Request(url, self.parse)
+        next_page = response.css(GsmarenaSpider.next_page_url_selector)
+
+        if(next_page):
+            url = response.urljoin(next_page[0].extract())
+            yield scrapy.Request(url, self.parse)
 
     def parse_product_page(self, response):
         # Obtain name of product
