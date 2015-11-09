@@ -24,3 +24,11 @@ class GsmareanaItem(scrapy.Item):
     Battery = scrapy.Field()
     Misc = scrapy.Field()
     Tests = scrapy.Field()
+
+    # URL = scrapy.Field()
+    # Maker = scrapy.Field()
+
+    # Dynamically add fields
+    def __setitem__(self, key, value):
+        self._values[key] = value
+        self.fields[key] = {}
