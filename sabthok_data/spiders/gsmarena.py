@@ -11,15 +11,15 @@ class GsmarenaSpider(scrapy.Spider):
     # Starting urls
     start_urls = [
         "http://www.gsmarena.com/samsung-phones-9.php",
-        "http://www.gsmarena.com/apple-phones-48.php",
-        "http://www.gsmarena.com/microsoft-phones-64.php",
-        "http://www.gsmarena.com/nokia-phones-1.php",
-        "http://www.gsmarena.com/sony-phones-7.php",
-        "http://www.gsmarena.com/lg-phones-20.php",
-        "http://www.gsmarena.com/htc-phones-45.php",
-        "http://www.gsmarena.com/motorola-phones-4.php",
-        "http://www.gsmarena.com/huawei-phones-58.php",
-        "http://www.gsmarena.com/lenovo-phones-73.php",
+        # "http://www.gsmarena.com/apple-phones-48.php",
+        # "http://www.gsmarena.com/microsoft-phones-64.php",
+        # "http://www.gsmarena.com/nokia-phones-1.php",
+        # "http://www.gsmarena.com/sony-phones-7.php",
+        # "http://www.gsmarena.com/lg-phones-20.php",
+        # "http://www.gsmarena.com/htc-phones-45.php",
+        # "http://www.gsmarena.com/motorola-phones-4.php",
+        # "http://www.gsmarena.com/huawei-phones-58.php",
+        # "http://www.gsmarena.com/lenovo-phones-73.php",
     ]
 
     product_selector = "div.makers > ul > li > a::attr('href')"
@@ -29,6 +29,7 @@ class GsmarenaSpider(scrapy.Spider):
     group_selector = "#specs-list > table"
 
     def parse(self, response):
+        logging.info('Current url ' + response.url)
         for href in response.css(GsmarenaSpider.product_selector):
             url = response.urljoin(href.extract())
             yield scrapy.Request(url, callback=self.parse_product_page)
@@ -65,7 +66,6 @@ class GsmarenaSpider(scrapy.Spider):
                 value = row.css('td.nfo::text').extract_first()
 
                 if(field == "Technology"):
-                    logging.debug("Technology  Skipped")
                     continue
 
                 if(field):
