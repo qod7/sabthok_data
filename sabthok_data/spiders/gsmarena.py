@@ -89,4 +89,6 @@ class GsmarenaSpider(scrapy.Spider):
 
             product[group_name] = properties
 
+        product['URL'] = response.url
+        product['Maker'] = response.url.split('/')[-1].split('_')[0]
         return product
