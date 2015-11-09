@@ -4,23 +4,34 @@ import scrapy
 from sabthok_data.items import GsmareanaItem
 
 
+def read_urls_from_file(filepath):
+    """
+        Reads starting urls from filepath provided and returns
+        a tuple of urls list with names list
+    """
+
+    file = open(filepath, "r")
+    content = file.read()
+    file.close()
+
+    urls = content.split('\n')
+    names = []
+    for url in urls:
+        name = url.split('/')[-1].split('-')[0].split('_')[0]
+        names.append(name)
+
+    # Removes duplicates
+    names = list(set(names))
+
+    return urls, names
+
+
 class GsmarenaSpider(scrapy.Spider):
     name = "gsmarena"
     allowed_domains = ["gsmarena.com"]
 
     # Starting urls
-    start_urls = [
-        "http://www.gsmarena.com/samsung-phones-9.php",
-        # "http://www.gsmarena.com/apple-phones-48.php",
-        # "http://www.gsmarena.com/microsoft-phones-64.php",
-        # "http://www.gsmarena.com/nokia-phones-1.php",
-        # "http://www.gsmarena.com/sony-phones-7.php",
-        # "http://www.gsmarena.com/lg-phones-20.php",
-        # "http://www.gsmarena.com/htc-phones-45.php",
-        # "http://www.gsmarena.com/motorola-phones-4.php",
-        # "http://www.gsmarena.com/huawei-phones-58.php",
-        # "http://www.gsmarena.com/lenovo-phones-73.php",
-    ]
+    start_urls, names = read_urls_from_file("gsmarena_urls.txt")
 
     product_selector = "div.makers > ul > li > a::attr('href')"
     next_page_url_selector = "a.pages-next::attr('href')"
